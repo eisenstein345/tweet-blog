@@ -1,0 +1,117 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+.page-wrapper {
+  background-color: #e5e5e5;
+  color: white;
+  height: 2000px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.message-false {
+  display: none;
+}
+
+.tweet {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-tweet-wrapper {
+  border: white solid 1px;
+  height: 90%;
+  width: 50%;
+  margin-top: 2rem;
+  border-radius: 6px;
+  position: relative;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  background: #15202b;
+}
+
+.input-tweet {
+  height: 90%;
+  font-size: 1.3rem;
+  resize: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  outline: none;
+  overflow: auto;
+}
+.button-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+
+.input-tweet-button {
+  border: none;
+  width: auto;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+
+  align-self: end;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 6px;
+  align-self: flex-end;
+}
+.input-tweet-button-true {
+  background-color: #4a4a4a;
+}
+.input-tweet-button-false {
+  background-color: #007bff;
+  cursor: pointer;
+}
+.max-chars {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  position: absolute;
+  padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  background-color: #343a40;
+  margin-top: 1rem;
+  border-radius: 6px;
+  height: 30%;
+  min-height: 8rem;
+  width: 50%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.user-date {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  color: #6c757d;
+  font-size: 1rem;
+  line-height: 1.2rem;
+}
+.tweet-item {
+  font-size: 1rem;
+  line-height: 1.2rem;
+  margin-top: 2rem;
+  text-align: left;
+  padding-bottom: 2rem;
+}
