@@ -4,6 +4,7 @@ import ErrorMessageDiv from "./ErrorMessageDiv";
 
 function Tweet(props) {
   const {
+    userNameInput,
     setTweetsArray,
     isDisabled,
     setIsDisabled,
@@ -14,9 +15,10 @@ function Tweet(props) {
   } = props;
   const [content, setContent] = useState("");
   const [date, setDate] = useState("");
-  const [userName, setUserName] = useState("Name");
+  const [userName, setUserName] = useState();
   const [tweetData, setTweetData] = useState({});
   const [maxChars, setMaxChars] = useState(false);
+  const nameData = localStorage.getItem("userName");
 
   const handleInputTweet = (e) => {
     setServerErrorMessage(false);
@@ -26,7 +28,7 @@ function Tweet(props) {
   useEffect(() => {
     const newDate = new Date();
     setTweetData({
-      userName: userName,
+      userName: JSON.parse(nameData),
       content: content,
       date: newDate.toISOString(),
       id: uuidv4(),

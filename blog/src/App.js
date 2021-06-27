@@ -1,65 +1,50 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import Tweet from "./components/Tweet";
-import List from "./components/List";
+import Home from "./components/Home.js";
+import Profile from "./components/Profile.js";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 function App() {
-  const [tweetsArray, setTweetsArray] = useState([]);
-  const [serverTweetsArray, setServerTweetsArray] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [serverErrorMessage, setServerErrorMessage] = useState(false);
-
-  useEffect(() => {
-    if (tweetsArray[0]) {
-      setServerErrorMessage(false);
-      setIsDisabled(true);
-      fetch(
-        "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(tweetsArray[tweetsArray.length - 1]),
-        }
-      ).then((response) => {
-        if (response) {
-          if (!response.ok) {
-            setServerErrorMessage(true);
-          }
-        }
-      });
-
-      setLoading(false);
-      setIsDisabled(false);
-    }
-  }, [tweetsArray]);
-
-  useEffect(() => {
-    fetch(
-      "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setServerTweetsArray(data.tweets);
-      });
-  }, []);
+  const [userNameInput, setUserNameInput] = useState("");
+  const linkStyle = {
+    margin: "1rem",
+    textDecoration: "none",
+    color: "#6c757d",
+  };
 
   return (
-    <div className="page-wrapper">
-      <Tweet
-        className="tweet"
-        setTweetsArray={setTweetsArray}
-        setIsDisabled={setIsDisabled}
-        isDisabled={isDisabled}
-        loading={loading}
-        setLoading={setLoading}
-        serverErrorMessage={serverErrorMessage}
-        setServerErrorMessage={setServerErrorMessage}
-      />
-      <List serverTweetsArray={serverTweetsArray} tweetsArray={tweetsArray} />
-    </div>
+    <Router>
+      <div className="navbar">
+        <nav>
+          <NavLink
+            style={linkStyle}
+            activeStyle={{ color: "white" }}
+            to="/home"
+          >
+            {" "}
+            Home
+          </NavLink>
+          <NavLink
+            style={linkStyle}
+            activeStyle={{ color: "white" }}
+            to="/profile"
+          >
+            {" "}
+            Profile
+          </NavLink>
+        </nav>
+      </div>
+      <Route exact path="/home">
+        <Home userNameInput={userNameInput} />
+      </Route>
+
+      <Route exact path="/profile">
+        <Profile
+          userNameInput={userNameInput}
+          setUserNameInput={setUserNameInput}
+        />
+      </Route>
+    </Router>
   );
 }
 
