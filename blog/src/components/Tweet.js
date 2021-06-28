@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ErrorMessageDiv from "./ErrorMessageDiv";
+import AppContext from "../context/AppContext";
 
-function Tweet(props) {
-  const {
-    userNameInput,
-    setTweetsArray,
-    isDisabled,
-    setIsDisabled,
-    loading,
-    setLoading,
-    serverErrorMessage,
-    setServerErrorMessage,
-  } = props;
+function Tweet() {
+  const appContext = useContext(AppContext);
   const [content, setContent] = useState("");
   const [date, setDate] = useState("");
   const [userName, setUserName] = useState();
@@ -21,7 +13,7 @@ function Tweet(props) {
   const nameData = localStorage.getItem("userName");
 
   const handleInputTweet = (e) => {
-    setServerErrorMessage(false);
+    appContext.setServerErrorMessage(false);
     setContent(e.target.value);
   };
 
@@ -39,19 +31,19 @@ function Tweet(props) {
     let length = content.length;
     if (!tweetData.content) {
       setMaxChars(false);
-      setIsDisabled(true);
+      appContext.setIsDisabled(true);
     } else if (length <= 140) {
       setMaxChars(false);
-      setIsDisabled(false);
+      appContext.setIsDisabled(false);
     } else {
       setMaxChars(true);
-      setIsDisabled(true);
+      appContext.setIsDisabled(true);
     }
   }, [tweetData, content.length]);
 
   const handleClick = () => {
-    setLoading(true);
-    setTweetsArray((prevState) => {
+    appContext.setLoading(true);
+    appContext.setTweetsArray((prevState) => {
       return [tweetData, ...prevState];
     });
 
@@ -76,23 +68,23 @@ function Tweet(props) {
             The Tweet can't contain more than 140 Chars.
           </div>
 
-          {!loading && (
+          {!appContext.loading && (
             <button
-              disabled={isDisabled}
-              className={`input-tweet-button input-tweet-button-${isDisabled}`}
+              disabled={appContext.isDisabled}
+              className={`input-tweet-button input-tweet-button-${appContext.isDisabled}`}
               onClick={handleClick}
             >
               Tweet
             </button>
           )}
-          {loading && (
+          {appContext.loading && (
             <div className="input-tweet-button lds-ripple">
               <div></div>
               <div></div>
             </div>
           )}
           <div className="server-error-wrapper">
-            {serverErrorMessage && (
+            {appContext.serverErrorMessage && (
               <ErrorMessageDiv message="Server error: Tweet hasn't been added to server" />
             )}
           </div>

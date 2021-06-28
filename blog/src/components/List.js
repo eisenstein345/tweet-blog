@@ -1,10 +1,13 @@
-function List(props) {
-  const { tweetsArray, serverTweetsArray } = props;
+import AppContext from "../context/AppContext";
+import { useContext } from "react";
+
+function List() {
+  const appContext = useContext(AppContext);
 
   return (
     <>
       <div className="list">
-        {tweetsArray.map((tweet) => {
+        {appContext.tweetsArray.map((tweet) => {
           return (
             <div key={tweet.id} className="list-item">
               <div className="user-date">
@@ -15,7 +18,7 @@ function List(props) {
             </div>
           );
         })}
-        {serverTweetsArray.map((tweet) => {
+        {appContext.serverTweetsArray.map((tweet) => {
           return (
             <div key={tweet.id} className="list-item">
               <div className="user-date">

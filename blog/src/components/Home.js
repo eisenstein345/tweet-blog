@@ -1,20 +1,16 @@
 import "../App.css";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import Tweet from "./Tweet";
 import List from "./List";
+import AppContext from "../context/AppContext";
 
 function Home(props) {
-  const { userNameInput } = props;
-  const [tweetsArray, setTweetsArray] = useState([]);
-  const [serverTweetsArray, setServerTweetsArray] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [serverErrorMessage, setServerErrorMessage] = useState(false);
+  const appContext = useContext(AppContext);
 
   useEffect(() => {
-    if (tweetsArray[0]) {
-      setServerErrorMessage(false);
-      setIsDisabled(true);
+    if (appContext.tweetsArray[0]) {
+      appContext.setServerErrorMessage(false);
+      appContext.setIsDisabled(true);
       fetch(
         "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet",
         {
@@ -22,20 +18,22 @@ function Home(props) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(tweetsArray[tweetsArray.length - 1]),
+          body: JSON.stringify(
+            appContext.tweetsArray[appContext.tweetsArray.length - 1]
+          ),
         }
       ).then((response) => {
         if (response) {
           if (!response.ok) {
-            setServerErrorMessage(true);
+            appContext.setServerErrorMessage(true);
           }
         }
       });
 
-      setLoading(false);
-      setIsDisabled(false);
+      appContext.setLoading(false);
+      appContext.setIsDisabled(false);
     }
-  }, [tweetsArray]);
+  }, [appContext.tweetsArray]);
 
   useEffect(() => {
     fetch(
@@ -43,24 +41,15 @@ function Home(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        setServerTweetsArray(data.tweets);
+        appContext.setTweetsArray([]);
+        appContext.setServerTweetsArray(data.tweets);
       });
-  }, []);
+  }, [appContext.serverTweetsArray]);
 
   return (
     <div className="page-wrapper">
-      <Tweet
-        className="tweet"
-        setTweetsArray={setTweetsArray}
-        setIsDisabled={setIsDisabled}
-        isDisabled={isDisabled}
-        loading={loading}
-        setLoading={setLoading}
-        serverErrorMessage={serverErrorMessage}
-        setServerErrorMessage={setServerErrorMessage}
-        userNameInput={userNameInput}
-      />
-      <List serverTweetsArray={serverTweetsArray} tweetsArray={tweetsArray} />
+      <Tweet className="tweet" />
+      <List />
     </div>
   );
 }

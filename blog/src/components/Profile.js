@@ -1,36 +1,37 @@
 import "../App.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import AppContext from "../context/AppContext";
 
-function Profile(props) {
-  const { userNameInput, setUserNameInput } = props;
-  const [isDisabled, setIsDisabled] = useState(true);
+function Profile() {
+  const appContext = useContext(AppContext);
+  const [isProfileDisabled, setIsProfileDisabled] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
   const handleUserName = (e) => {
-    setUserNameInput(e.target.value);
+    appContext.setUserNameInput(e.target.value);
   };
 
   useEffect(() => {
-    if (!userNameInput) {
-      setIsDisabled(true);
+    if (!appContext.userNameInput) {
+      setIsProfileDisabled(true);
     } else {
-      setIsDisabled(false);
+      setIsProfileDisabled(false);
     }
-  }, [userNameInput]);
+  }, [appContext.userNameInput]);
 
   const handleClick = () => {
-    localStorage.setItem("userName", JSON.stringify(userNameInput));
+    localStorage.setItem("userName", JSON.stringify(appContext.userNameInput));
     setTimeout(() => {
       setRedirect(true);
     }, [2000]);
 
-    return userNameInput;
+    return appContext.userNameInput;
   };
 
   return (
     <div className="tweet">
-      {redirect && <Redirect to="/" />}
+      {redirect && <Redirect to="/home" />}
       <div className="profile">
         <div className="profile-text">Profile</div>
       </div>
@@ -39,14 +40,14 @@ function Profile(props) {
         <textarea
           placeholder="Enter your name..."
           type="text"
-          value={userNameInput}
+          value={appContext.userNameInput}
           className="input-name"
-          onInput={handleUserName}
+          onChange={handleUserName}
         ></textarea>
         <div className="button-wrapper">
           <button
-            disabled={isDisabled}
-            className={`input-tweet-button input-tweet-button-${isDisabled}`}
+            disabled={isProfileDisabled}
+            className={`input-tweet-button input-tweet-button-${isProfileDisabled}`}
             onClick={handleClick}
           >
             Save

@@ -189,6 +189,7 @@ nav {
   margin-top: 2rem;
   text-align: left;
   padding-bottom: 2rem;
+  overflow: auto;
 }
 .lds-ripple {
   display: inline-block;
